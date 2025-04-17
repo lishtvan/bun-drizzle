@@ -1,10 +1,13 @@
-# fly.toml app configuration file generated for bun-drizzle on 2025-04-17T19:38:04+03:00
+# fly.toml app configuration file generated for bun-drizzle on 2025-04-17T19:54:14+03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = 'bun-drizzle'
 primary_region = 'otp'
+
+[deploy]
+  release_command = "bunx drizzle-kit migrate"
 
 [build]
 

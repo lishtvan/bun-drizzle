@@ -3,6 +3,11 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "start": "bun src/index.ts",
+    "build": "bun build index.ts --outfile=dist/index.js",
+    "push": "bunx drizzle-kit push"
+  },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.7.10",
     "@types/bun": "latest",
