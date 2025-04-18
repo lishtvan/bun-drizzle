@@ -6,7 +6,8 @@
   "scripts": {
     "start": "bun src/index.ts",
     "build": "bun build index.ts --outfile=dist/index.js",
-    "push": "bunx drizzle-kit push"
+    "push": "bunx drizzle-kit push",
+    "dev": "bun --watch src/index.ts"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.7.10",
