@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/bun-sql";
 
 import * as schema from "./db/schema";
-const db = drizzle(process.env.DATABASE_URL!, { schema });
+const db = drizzle(process.env.DATABASE_URL!, { schema, casing: "snake_case" });
 import { eq } from "drizzle-orm";
 
 const port = 3000;
@@ -10,6 +10,10 @@ Bun.serve({
   routes: {
     "/users": {
       GET: async (req) => {
+        const comments = await db.query.comments.findMany({
+          orderBy: (comments, { desc }) => [desc(comments.postId)],
+        });
+        console.log(comments.map((comment) => comment.postId));
         const users = await db.query.users.findMany({
           orderBy: (users, { desc }) => [desc(users.id)],
         });
@@ -147,7 +151,7 @@ Bun.serve({
       },
       POST: async (req) => {
         const body = await req.json();
-        // @ts-ignore
+        // @ts-expect-error
         await db.insert(schema.users).values(body);
         return new Response("Redirecting...", {
           status: 301,
@@ -161,7 +165,6 @@ Bun.serve({
         const parts = url.pathname.split("/");
         const userId = parseInt(parts[parts.length - 1] || "0", 10);
         if (userId > 0) {
-          // @ts-ignore
           await db.delete(schema.users).where(eq(schema.users.id, userId));
           return new Response("User deleted", {
             status: 200,
